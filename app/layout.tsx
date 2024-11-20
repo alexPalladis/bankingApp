@@ -10,8 +10,8 @@ variable: '--font-ibm-plex-serif'
 });
 
 export const metadata: Metadata = {
-  title: "AlexBank",
-  description: "AlexBank is your new banking platform",
+  title: "BankBuddy",
+  description: "BankBuddy is your new banking platform",
   icons:{
     icon:'/icons/logo.svg'
   }
