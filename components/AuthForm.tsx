@@ -26,6 +26,7 @@ import SignIn from '@/app/(auth)/sign-in/page';
 import { useRouter } from 'next/navigation';
 import { signIn } from '@/lib/actions/user.actions';
 import { signUp } from '@/lib/actions/user.actions';
+import PlaidLink from './PlaidLink';
 
 
 
@@ -51,8 +52,23 @@ const AuthForm = ({type}: {type:string}) => {
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     setIsLoading(true)
     try{
+
+        
         if(type==='sign-up'){
-            const newUser = await signUp(data)
+            const userData = {
+                firstName: data.firstName!,
+                lastName: data.lastName!,
+                address1 : data.address1!,
+                city: data.city!,
+                state: data.state!,
+                postalCode: data.postalCode!,
+                dateOfBirth: data.dateOfBirth!,
+                ssn: data.ssn!,
+                email: data.email,
+                password: data.password
+            }
+
+            const newUser = await signUp(userData)
             setUser(newUser)
         }
         if(type==='sign-in'){
@@ -97,7 +113,7 @@ const AuthForm = ({type}: {type:string}) => {
         </header>
         {user ? (
             <div className='flex flex-col gap-4'>
-
+                <PlaidLink user={user} variant='primary'/>
             </div>
         ) : (
             <>
@@ -136,7 +152,7 @@ const AuthForm = ({type}: {type:string}) => {
                                     <CustomInput
                                     control={form.control}
                                     name='state'
-                                    placeholder='Example: Epirus'
+                                    placeholder='Example: NY'
                                     label='State'
                                     />
                                     <CustomInput
@@ -156,7 +172,7 @@ const AuthForm = ({type}: {type:string}) => {
                                     <CustomInput
                                     control={form.control}
                                     name='ssn'
-                                    placeholder='Example: 08059206765'
+                                    placeholder='Example: 123-45-6789f'
                                     label='SSN'
                                     />
                                 </div>

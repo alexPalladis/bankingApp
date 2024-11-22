@@ -8,6 +8,14 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+// FORMAT SSN INPUT
+export const formatSSN = (ssn: string): string => {
+  if (!ssn) throw new Error("SSN is required");
+  const sanitizedSSN = ssn.replace(/\D/g, ""); // Remove non-digit characters
+  if (sanitizedSSN.length !== 9) throw new Error("SSN must be 9 digits long");
+  return sanitizedSSN.replace(/^(\d{3})(\d{2})(\d{4})$/, "$1-$2-$3");
+};
+
 // FORMAT DATE TIME
 export const formatDateTime = (dateString: Date) => {
   const dateTimeOptions: Intl.DateTimeFormatOptions = {
@@ -195,16 +203,16 @@ export const getTransactionStatus = (date: Date) => {
   return date > twoDaysAgo ? "Processing" : "Success";
 };
 
-export const authFormSchema = (type) => z.object({
+export const authFormSchema = (type: string) => z.object({
   //sign-up
   firstName : type==='sign-in' ? z.string().optional() : z.string().min(3),
   lastName : type==='sign-in' ? z.string().optional() : z.string().min(3),
   address1 : type==='sign-in' ? z.string().optional() : z.string().max(50),
   city : type==='sign-in' ? z.string().optional() : z.string().max(50),
-  state : type==='sign-in' ? z.string().optional() : z.string().min(4).max(10),
+  state : type==='sign-in' ? z.string().optional() : z.string().min(2).max(10),
   postalCode : type==='sign-in' ? z.string().optional() : z.string().min(3).max(6),
   dateOfBirth : type==='sign-in' ? z.string().optional() : z.string().min(6),
-  ssn : type==='sign-in' ? z.string().optional() : z.string().min(11),
+  ssn : type==='sign-in' ? z.string().optional() : z.string().min(9),
   
   //both
   email: z.string().email(),
