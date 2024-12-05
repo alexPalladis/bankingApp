@@ -34,17 +34,35 @@ export const getTransactionsByBankId = async ({bankId}: getTransactionsByBankIdP
   try {
     const { database } = await createAdminClient();
 
+    // Ensure environment variables are set
+    const DATABASE_ID = process.env.APPWRITE_DATABASE_ID!;
+    const TRANSACTION_COLLECTION_ID = process.env.APPWRITE_TRANSACTION_COLLECTION_ID!;
+
+    if (!DATABASE_ID || !TRANSACTION_COLLECTION_ID) {
+        throw new Error("Environment variables for DATABASE_ID or TRANSACTION_COLLECTION_ID are missing.");
+    }
+
+    
+
+    // Retrieve and log schema
+    const schema = await database.getCollection(DATABASE_ID, TRANSACTION_COLLECTION_ID);
+    
+
     const senderTransactions = await database.listDocuments(
       DATABASE_ID!,
       TRANSACTION_COLLECTION_ID!,
-      [Query.equal('senderBankId', bankId)],
+      [Query.equal('senderBankId', bankId || '')],
     )
+
+    
 
     const receiverTransactions = await database.listDocuments(
       DATABASE_ID!,
       TRANSACTION_COLLECTION_ID!,
-      [Query.equal('receiverBankId', bankId)],
+      [Query.equal('receiverBankId', bankId || '')],
     );
+
+    
 
     const transactions = {
       total: senderTransactions.total + receiverTransactions.total,
@@ -56,6 +74,8 @@ export const getTransactionsByBankId = async ({bankId}: getTransactionsByBankIdP
 
     return parseStringify(transactions);
   } catch (error) {
-    console.log(error);
+    
+    console.error("Error fetching transactions by bank ID:", error);
+    return { total: 0, documents: [] }; // Return a safe fallback
   }
 }

@@ -8,6 +8,7 @@ const config = {
     "./app/**/*.{ts,tsx}",
     "./src/**/*.{ts,tsx}",
     "./constants/**/*.{ts,tsx}",
+    './styles/**/*.{css}', // Ensure custom styles like globals.css are included
   ],
   prefix: "",
   theme: {

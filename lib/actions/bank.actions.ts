@@ -10,10 +10,11 @@ import {
 } from "plaid";
 
 import { plaidClient } from "../plaid";
-import { parseStringify } from "../utils";
+import { encryptId, parseStringify } from "../utils";
 
 import { getTransactionsByBankId } from "./transaction.actions";
-import { getBanks, getBank } from "./user.actions";
+import { getBanks, getBank, getBankByAccountId } from "./user.actions";
+import { parse } from "path";
 
 // Get multiple bank accounts
 export const getAccounts = async ({ userId }: getAccountsProps) => {
@@ -80,7 +81,7 @@ export const getAccount = async ({ appwriteItemId }: getAccountProps) => {
       bankId: bank.$id,
     });
 
-    const transferTransactions = transferTransactionsData.document.map(
+    const transferTransactions = transferTransactionsData.documents.map(
       (transferData: Transaction) => ({
         id: transferData.$id,
         name: transferData.name!,
@@ -127,6 +128,7 @@ export const getAccount = async ({ appwriteItemId }: getAccountProps) => {
     console.error("An error occurred while getting the account:", error);
   }
 };
+
 
 // Get bank info
 export const getInstitution = async ({

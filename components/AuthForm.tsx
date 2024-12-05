@@ -29,12 +29,11 @@ import { signUp } from '@/lib/actions/user.actions';
 import PlaidLink from './PlaidLink';
 
 
-
-
 const AuthForm = ({type}: {type:string}) => {
     const router = useRouter();
     const [user,setUser]=useState(null);
     const [isLoading,setIsLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null); // State to handle errors
     
 
     const formSchema = authFormSchema(type)
@@ -43,17 +42,24 @@ const AuthForm = ({type}: {type:string}) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: "",
-      password: ""
+        firstName: "",
+        lastName: "",
+        address1: "",
+        city: "",
+        state: "",
+        postalCode: "",
+        dateOfBirth: "",
+        ssn: "",
+        email: "",
+        password: ""
     },
   })
  
   // 2. Define a submit handler.
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     setIsLoading(true)
+    setError(null); // Clear any previous error messages
     try{
-
-        
         if(type==='sign-up'){
             const userData = {
                 firstName: data.firstName!,
@@ -67,8 +73,10 @@ const AuthForm = ({type}: {type:string}) => {
                 email: data.email,
                 password: data.password
             }
+            
 
             const newUser = await signUp(userData)
+            
             setUser(newUser)
         }
         if(type==='sign-in'){
@@ -77,18 +85,25 @@ const AuthForm = ({type}: {type:string}) => {
             password: data.password
         })
 
-        if(response) router.push('/')
-         }
-
-        
-    }catch(error){
-        console.log(error)
-    }finally{
-        setIsLoading(false)
-    }
+        if (response) {
+            router.push('/');
+          } else {
+            setError('Invalid email or password!'); // Handle invalid credentials
+          }
+        }
+      } catch (err: any) {
+        console.error("Caught error in onSubmit:", err); // Log the error for debugging
     
-  }
-
+        // Display the error message from the backend
+        if (err?.message) {
+          setError('Email already exists.');
+        } else {
+          setError("An unexpected error occurred. Please try again."); // Generic fallback
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    };
   return (
     <section className='auth-form'>
         <header className='flex flex-col gap-5 md:gap-8'>
@@ -117,7 +132,15 @@ const AuthForm = ({type}: {type:string}) => {
             </div>
         ) : (
             <>
+                {/* Display error message if present */}
+                {error && (
+                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-4">
+                    <strong className="font-bold">Error: </strong>
+                    <span className="block sm:inline">{error}</span>
+                </div>
+                )}
                 <Form {...form}>
+                
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
 
                         {type==='sign-up' && (
@@ -203,7 +226,9 @@ const AuthForm = ({type}: {type:string}) => {
                         </div>
                         
                     </form>
+                    
                 </Form>
+                
                 <footer className='flex justify-center gap-1'>
                     <p className='text-14 font-normal text-gray-600'>{type==='sign-in' ? "Don't have an account?" : "Already have an account?"}</p>
                     <Link href={type==='sign-in' ? '/sign-up' : '/sign-in'} className='form-link'>

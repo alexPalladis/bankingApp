@@ -13,6 +13,8 @@ const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
         )}
         ref={ref}
         {...props}
+        value={props.value || ""} // Ensure a fallback for controlled inputs
+        onChange={props.onChange} // Ensure an onChange prop exists
       />
     )
   }

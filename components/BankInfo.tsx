@@ -43,7 +43,7 @@ const BankInfo = ({ account, appwriteItemId, type }: BankInfoProps) => {
           src="/icons/connect-bank.svg"
           width={20}
           height={20}
-          alt={account.subtype}
+          alt=''
           className="m-2 min-w-5"
         />
       </figure>
