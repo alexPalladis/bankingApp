@@ -47,6 +47,9 @@ automaticVercelMonitors: true,
 
 
 module.exports = {
+  env: {
+    VERCEL_ENV: process.env.VERCEL_ENV || 'sandbox',
+  },
     output: "standalone",
     webpack: (config: { ignoreWarnings: { module: RegExp; message: RegExp; }[]; }) => {
       config.ignoreWarnings = [
