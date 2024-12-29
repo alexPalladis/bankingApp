@@ -1,8 +1,7 @@
 import React from 'react'
 import BankCard from './BankCard'
 import { countTransactionCategories } from '@/lib/utils'
-import Category from './Category'
-;
+import Category from './Category';
 
 
 
