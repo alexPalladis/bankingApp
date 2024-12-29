@@ -113,8 +113,15 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
 
 export async function getLoggedInUser() {
   try {
-    const { account } = await createSessionClient();
-    const result = await account.get();
+    const sessionClient = await createSessionClient();
+
+    // Check if the sessionClient or account is null
+    if (!sessionClient || !sessionClient.account) {
+      console.log("Account is null or session client is unavailable.");
+      return null; // Handle the null case appropriately
+    }
+
+    const result = await sessionClient.account.get();
 
     const user = await getUserInfo({ userId: result.$id})
 
@@ -127,11 +134,17 @@ export async function getLoggedInUser() {
 
 export const logoutAccount = async () => {
   try {
-    const { account } = await createSessionClient();
+    const sessionClient = await createSessionClient();
 
     (await cookies()).delete('appwrite-session');
 
-    await account.deleteSession('current');
+    // Check if the sessionClient or account is null
+    if (!sessionClient || !sessionClient.account) {
+      console.log("Account is null or session client is unavailable.");
+      return null; // Handle the null case appropriately
+    }
+
+    await sessionClient.account.deleteSession('current');
   } catch (error) {
     return null;
   }
