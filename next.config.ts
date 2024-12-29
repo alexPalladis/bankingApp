@@ -47,5 +47,6 @@ automaticVercelMonitors: true,
 
 module.exports = {
     output: "standalone"
-  };
-  
+};
+ 
+   

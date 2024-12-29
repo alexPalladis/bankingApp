@@ -3,25 +3,27 @@
   "version": "0.1.0",
   "private": true,
   "engines": {
-  "node": "20.x"
-},
-
+    "node": "20.x"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "heroku-postbuild": "npm run build"
+    "lint": "next lint"
+    
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
+    "@opentelemetry/instrumentation": "^0.57.0",
+    "@opentelemetry/instrumentation-undici": "^0.10.0",
     "@radix-ui/react-dialog": "^1.1.2",
     "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-progress": "^1.1.0",
     "@radix-ui/react-select": "^2.1.2",
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-tabs": "^1.1.1",
-    "@sentry/nextjs": "^8.39.0",
+    "@sentry/nextjs": "^8.47.0",
+    "@sentry/node": "^8.47.0",
     "chart.js": "^4.4.6",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
