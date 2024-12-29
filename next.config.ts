@@ -45,8 +45,18 @@ disableLogger: true,
 automaticVercelMonitors: true,
 });
 
+
 module.exports = {
-    output: "standalone"
-};
- 
+    output: "standalone",
+    webpack: (config: { ignoreWarnings: { module: RegExp; message: RegExp; }[]; }) => {
+      config.ignoreWarnings = [
+        {
+          module: /node_modules\/@opentelemetry\/instrumentation/,
+          message: /the request of a dependency is an expression/,
+        },
+      ];
+      return config;
+    },
+  };
+   
    

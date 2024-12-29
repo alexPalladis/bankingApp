@@ -145,7 +145,7 @@ export function countTransactionCategories(
   let totalCount = 0;
 
   // Iterate over each transaction
-  transactions &&
+ 
     transactions.forEach((transaction) => {
       // Extract the category from the transaction
       const category = transaction.category;
