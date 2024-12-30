@@ -7,7 +7,7 @@ import { error } from "console";
 
 const {
   APPWRITE_DATABASE_ID: DATABASE_ID,
-  APPWRITE_USER_COLLECTION_ID: TRANSACTION_COLLECTION_ID,
+  APPWRITE_TRANSACTION_COLLECTION_ID: TRANSACTION_COLLECTION_ID,
 } = process.env;
 
 export const createTransaction = async (transaction: CreateTransactionProps) => {
