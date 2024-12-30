@@ -78,6 +78,10 @@ const PaymentTransferForm = ({ accounts }: PaymentTransferFormProps) => {
           receiverBankId: receiverBank.$id,
           email: data.email,
         };
+        console.log('Sender Bank:', senderBank);
+        console.log('Receiver Bank:', receiverBank);
+
+        console.log('Transaction Payload:', transaction);
 
         const newTransaction = await createTransaction(transaction);
 
