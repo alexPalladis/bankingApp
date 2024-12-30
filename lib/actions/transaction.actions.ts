@@ -3,6 +3,7 @@
 import { ID, Query } from "node-appwrite";
 import { createAdminClient } from "../appwrite";
 import { parseStringify } from "../utils";
+import { error } from "console";
 
 const {
   APPWRITE_DATABASE_ID: DATABASE_ID,
@@ -24,10 +25,10 @@ export const createTransaction = async (transaction: CreateTransactionProps) => 
         ...transaction
       }
     )
-
+    console.log('Transaction created:', newTransaction);
     return parseStringify(newTransaction);
   } catch (error) {
-    console.log(error);
+    console.error('Error creating transaction:',error);
   }
 }
 
