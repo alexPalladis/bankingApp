@@ -5,6 +5,12 @@ import TotalBalanceBox from '@/components/TotalBalanceBox';
 import { getAccount, getAccounts } from '@/lib/actions/bank.actions';
 import { getLoggedInUser } from '@/lib/actions/user.actions';
 
+type SearchParamProps = {
+  searchParams: {
+    id?: string;
+    page?: string;
+  };
+};
 
 
 
