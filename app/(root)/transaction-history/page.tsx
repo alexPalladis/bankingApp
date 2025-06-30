@@ -7,6 +7,7 @@ import { formatAmount } from '@/lib/utils';
 import React from 'react'
 
 const TransactionHistory = async ({ searchParams}:SearchParamProps) => {
+  const { id, page } = await searchParams; // Ensure async destructuring if needed
   const currentPage = Number(page as string) || 1;
   const loggedIn = await getLoggedInUser();
   const accounts = await getAccounts({ 
