@@ -9,7 +9,7 @@ import { getLoggedInUser } from '@/lib/actions/user.actions';
 
 
 const Home = async ({ searchParams }: SearchParamProps) => {
-  const { id, page } =  searchParams; 
+  const { id, page } =  await searchParams; 
   const currentPage = Number(page as string) || 1;
   const loggedIn = await getLoggedInUser();
 
