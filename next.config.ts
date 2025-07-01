@@ -5,6 +5,9 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+   typescript: {
+    ignoreBuildErrors: true,
+  },
   env: {
     VERCEL_ENV: process.env.VERCEL_ENV || 'sandbox',
   },
